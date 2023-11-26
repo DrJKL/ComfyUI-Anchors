@@ -8,6 +8,15 @@
       "DOM",
       "DOM.Iterable"
     ],
+    "types": [
+      "node"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "*": [
+        "types/*"
+      ]
+    },
     "skipLibCheck": true,
     /* Bundler mode */
     "moduleResolution": "bundler",
