@@ -5,8 +5,8 @@ export default defineConfig({
     build: {
         lib: {
             entry: resolve(__dirname, 'lib/anchor.ts'),
-            name: 'anchor',
-            fileName: (format) => `anchor.${format}.js`
+            name: 'comfyui-anchors',
+            fileName: `comfyui-anchors`
         }
     }
 });

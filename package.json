@@ -5,8 +5,8 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/anchor.es.js",
-      "require": "./dist/anchor.umd.js"
+      "import": "./dist/comfyui-anchors.es.js",
+      "require": "./dist/comfyui-anchors.umd.cjs"
     }
   },
   "scripts": {
