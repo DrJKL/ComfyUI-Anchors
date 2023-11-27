@@ -8,15 +8,7 @@
       "DOM",
       "DOM.Iterable"
     ],
-    "types": [
-      "node"
-    ],
-    "baseUrl": "./",
-    "paths": {
-      "*": [
-        "types/*"
-      ]
-    },
+    "baseUrl": "lib",
     "skipLibCheck": true,
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -28,9 +20,11 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "allowJs": true
   },
   "include": [
-    "lib"
-  ]
+    "lib/**/*",
+    "../ComfyUI/web/**/*"
+  ],
 }
