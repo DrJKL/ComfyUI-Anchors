@@ -1,4 +1,4 @@
-import { app as o } from "../../../scripts/app";
+import { app as o } from "../../../scripts/app.js";
 function n() {
   console.log("%cSetting up ComfyUI-Anchors...", "color:green");
 }

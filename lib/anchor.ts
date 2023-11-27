@@ -1,4 +1,4 @@
-import { app } from '../../ComfyUI/web/scripts/app';
+import { app } from '../../ComfyUI/web/scripts/app.js';
 import { ComfyExtension } from '../../ComfyUI/web/types/comfy';
 
 function setupAnchors() {
