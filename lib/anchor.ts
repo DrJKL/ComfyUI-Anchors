@@ -1,7 +1,5 @@
-// @ts-ignore
-import { app } from '../../../scripts/app.js';
-
-import type { ComfyExtension } from './../types/comfy.d';
+import { app } from '../../ComfyUI/web/scripts/app';
+import { ComfyExtension } from '../../ComfyUI/web/types/comfy';
 
 function setupAnchors() {
   console.log(`Setting up ComfyUI-Anchors...`);
