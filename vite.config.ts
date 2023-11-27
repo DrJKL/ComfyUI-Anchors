@@ -1,22 +1,27 @@
 import { resolve } from 'node:path';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import dts from 'vite-plugin-dts';
 
-export default defineConfig({
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'lib/anchor.ts'),
-      name: 'comfyui-anchors',
-      fileName: `comfyui-anchors`,
-    },
-    rollupOptions: {
-      external: ['../../../scripts/app.js', '../../../scripts/api.js'],
-      output: {
-        globals: {
-          '../../../scripts/app.js': 'ComfyApp',
-        },
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd());
+  console.log(env);
+  return {
+    build: {
+      lib: {
+        entry: resolve(__dirname, 'lib/anchor.ts'),
+        name: 'comfyui-anchors',
+        formats: ['es'],
+        fileName: `comfyui-anchors`,
+      },
+      rollupOptions: {
+        external: [new RegExp('\\.\\./\\.\\./\\.\\./.*')],
       },
     },
-  },
-  plugins: [dts()],
+
+    resolve: {
+      alias: [{ find: /.+\/ComfyUI\/web\/(.*)/, replacement: '../../../$1' }],
+    },
+
+    plugins: [dts({ include: ['lib'], exclude: ['ComfyUI/**'] })],
+  };
 });
