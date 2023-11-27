@@ -2,16 +2,22 @@ import { app } from '../../ComfyUI/web/scripts/app';
 import { ComfyExtension } from '../../ComfyUI/web/types/comfy';
 
 function setupAnchors() {
-  console.log(`Setting up ComfyUI-Anchors...`);
+  console.log(`%cSetting up ComfyUI-Anchors...`, 'color:green');
 }
 
 app.registerExtension({
   name: 'drjkl.customnodes.anchors',
   async beforeRegisterNodeDef(_nodeType, _nodeData, _app) {
-    console.log(`cui-anchors_beforeRegisterNodeDef: ${_nodeType.type}`);
+    console.log(
+      `%ccui-anchors_beforeRegisterNodeDef: ${_nodeType.type}`,
+      'color:green',
+    );
   },
   async nodeCreated(_node) {
-    console.log(`cui-anchors_nodeCreated: ${_node.getTitle()}`);
+    console.log(
+      `%ccui-anchors_nodeCreated: ${_node.getTitle()}`,
+      'color:green',
+    );
   },
   async setup() {
     setupAnchors();

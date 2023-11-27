@@ -1,14 +1,20 @@
-import { app as o } from "../../../scripts/app.js";
+import { app as o } from "../../../scripts/app";
 function n() {
-  console.log("Setting up ComfyUI-Anchors...");
+  console.log("%cSetting up ComfyUI-Anchors...", "color:green");
 }
 o.registerExtension({
   name: "drjkl.customnodes.anchors",
-  async beforeRegisterNodeDef(e, s, t) {
-    console.log(`cui-anchors_beforeRegisterNodeDef: ${e.type}`);
+  async beforeRegisterNodeDef(e, r, c) {
+    console.log(
+      `%ccui-anchors_beforeRegisterNodeDef: ${e.type}`,
+      "color:green"
+    );
   },
   async nodeCreated(e) {
-    console.log(`cui-anchors_nodeCreated: ${e.getTitle()}`);
+    console.log(
+      `%ccui-anchors_nodeCreated: ${e.getTitle()}`,
+      "color:green"
+    );
   },
   async setup() {
     n();
