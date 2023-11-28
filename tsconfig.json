@@ -24,7 +24,7 @@
     "allowJs": true
   },
   "include": [
-    "global.d.ts",
+    "lib/global.d.ts",
     "lib/**/*",
     "../ComfyUI/web/**/*"
   ],
