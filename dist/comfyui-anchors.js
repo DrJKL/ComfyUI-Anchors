@@ -26,10 +26,10 @@ c.registerExtension({
       }
     }
     e(o, "category", "utils"), LiteGraph.registerNodeType(
-      "Anchor",
+      "⚓ Anchor",
       Object.assign(o, {
         title_mode: LiteGraph.NORMAL_TITLE,
-        title: "⚓",
+        title: "⚓ Anchor",
         collapsable: !0
       })
     );

@@ -31,10 +31,10 @@ app.registerExtension({
     // Load default visibility
 
     LiteGraph.registerNodeType(
-      'Anchor',
+      '⚓ Anchor',
       Object.assign(AnchorNode, {
         title_mode: LiteGraph.NORMAL_TITLE,
-        title: '⚓',
+        title: '⚓ Anchor',
         collapsable: true,
       }),
     );
