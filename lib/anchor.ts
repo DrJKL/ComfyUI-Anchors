@@ -2,13 +2,6 @@ import { app } from '../../ComfyUI/web/scripts/app.js';
 import { ComfyWidgets } from '../../ComfyUI/web/scripts/widgets.js';
 import { type ComfyExtension } from '../../ComfyUI/web/types/comfy';
 
-declare global {
-  // TODO: Oh god... What have I gotten myself into...?
-  // Nah, this'll be fun.
-  const LiteGraph: any;
-  const LGraphCanvas: any;
-}
-
 function setupAnchors() {
   console.log(`%cSetting up ComfyUI-Anchors...`, 'color:green');
 }
