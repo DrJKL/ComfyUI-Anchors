@@ -21,24 +21,29 @@ app.registerExtension({
       constructor() {
         ComfyWidgets.STRING(
           this,
-          '',
+          'waypoint',
           ['', { default: this.properties.text, multiline: false }],
           app,
         );
+      }
+      onMouseMove(e: MouseEvent, [x, y]: [number, number], canvas: unknown) {
+        console.table({ type: 'mouseMove', e, x, y, canvas });
+      }
+      onMouseUp(e: MouseEvent, [x, y]: [number, number], canvas: unknown) {
+        console.table({ type: 'mouseUp', e, x, y, canvas });
       }
     }
 
     // Load default visibility
 
     LiteGraph.registerNodeType(
-      '⚓ Anchor',
+      'utils/⚓ Anchor',
       Object.assign(AnchorNode, {
         title_mode: LiteGraph.NORMAL_TITLE,
         title: '⚓ Anchor',
         collapsable: true,
       }),
     );
-    AnchorNode.category = 'utils';
   },
   async setup() {
     setupAnchors();
