@@ -1,4 +1,9 @@
+import {
+  LGraphCanvas,
+  LiteGraph,
+} from '../../ComfyUI/web/lib/litegraph.core.js';
 import { app } from '../../ComfyUI/web/scripts/app.js';
+import { ComfyWidgets } from '../../ComfyUI/web/scripts/widgets.js';
 import { ComfyExtension } from '../../ComfyUI/web/types/comfy';
 
 function setupAnchors() {
@@ -6,17 +11,36 @@ function setupAnchors() {
 }
 
 app.registerExtension({
-  name: 'drjkl.customnodes.anchors',
-  async beforeRegisterNodeDef(_nodeType, _nodeData, _app) {
-    console.log(
-      `%ccui-anchors_beforeRegisterNodeDef: ${_nodeType.type}`,
-      'color:green',
-    );
-  },
-  async nodeCreated(_node) {
-    console.log(
-      `%ccui-anchors_nodeCreated: ${_node.getTitle()}`,
-      'color:green',
+  name: 'drjkl.custom_nodes.anchors',
+  async registerCustomNodes(app) {
+    class AnchorNode {
+      static readonly category = 'utils';
+
+      color = LGraphCanvas.node_colors.yellow.color;
+      bgcolor = LGraphCanvas.node_colors.yellow.bgcolor;
+      groupcolor = LGraphCanvas.node_colors.yellow.groupcolor;
+      readonly serialize_widgets = true;
+      readonly isVirtualNode = true;
+      properties: { text: string } = { text: '' };
+      constructor() {
+        ComfyWidgets.STRING(
+          this,
+          '',
+          ['', { default: this.properties.text, multiline: false }],
+          app,
+        );
+      }
+    }
+
+    // Load default visibility
+
+    LiteGraph.registerNodeType(
+      'Anchor',
+      Object.assign(AnchorNode, {
+        title_mode: LiteGraph.NORMAL_TITLE,
+        title: '⚓',
+        collapsable: true,
+      }),
     );
   },
   async setup() {
