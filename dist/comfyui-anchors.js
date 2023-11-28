@@ -1,38 +1,38 @@
-var s = Object.defineProperty;
-var l = (r, o, t) => o in r ? s(r, o, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[o] = t;
-var e = (r, o, t) => (l(r, typeof o != "symbol" ? o + "" : o, t), t);
-import { app as c } from "../../../scripts/app.js";
+var l = Object.defineProperty;
+var c = (o, e, t) => e in o ? l(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t;
+var r = (o, e, t) => (c(o, typeof e != "symbol" ? e + "" : e, t), t);
+import { app as s } from "../../../scripts/app.js";
 import { ComfyWidgets as i } from "../../../scripts/widgets.js";
 function a() {
   console.log("%cSetting up ComfyUI-Anchors...", "color:green");
 }
-c.registerExtension({
+s.registerExtension({
   name: "drjkl.custom_nodes.anchors",
-  async registerCustomNodes(r) {
+  async registerCustomNodes() {
     class o {
       constructor() {
-        e(this, "color", LGraphCanvas.node_colors.yellow.color);
-        e(this, "bgcolor", LGraphCanvas.node_colors.yellow.bgcolor);
-        e(this, "groupcolor", LGraphCanvas.node_colors.yellow.groupcolor);
-        e(this, "serialize_widgets", !0);
-        e(this, "isVirtualNode", !0);
-        e(this, "properties", { text: "" });
+        r(this, "color", LGraphCanvas.node_colors.yellow.color);
+        r(this, "bgcolor", LGraphCanvas.node_colors.yellow.bgcolor);
+        r(this, "groupcolor", LGraphCanvas.node_colors.yellow.groupcolor);
+        r(this, "serialize_widgets", !0);
+        r(this, "isVirtualNode", !0);
+        r(this, "properties", { text: "" });
         i.STRING(
           this,
           "",
           ["", { default: this.properties.text, multiline: !1 }],
-          r
+          s
         );
       }
     }
-    e(o, "category", "utils"), LiteGraph.registerNodeType(
+    r(o, "category", "utils"), LiteGraph.registerNodeType(
       "⚓ Anchor",
       Object.assign(o, {
         title_mode: LiteGraph.NORMAL_TITLE,
         title: "⚓ Anchor",
         collapsable: !0
       })
-    );
+    ), o.category = "utils";
   },
   async setup() {
     a();

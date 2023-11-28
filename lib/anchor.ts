@@ -8,9 +8,9 @@ function setupAnchors() {
 
 app.registerExtension({
   name: 'drjkl.custom_nodes.anchors',
-  async registerCustomNodes(app) {
+  async registerCustomNodes() {
     class AnchorNode {
-      static readonly category = 'utils';
+      static category = 'utils';
 
       color = LGraphCanvas.node_colors.yellow.color;
       bgcolor = LGraphCanvas.node_colors.yellow.bgcolor;
@@ -38,6 +38,7 @@ app.registerExtension({
         collapsable: true,
       }),
     );
+    AnchorNode.category = 'utils';
   },
   async setup() {
     setupAnchors();
