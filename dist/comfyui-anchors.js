@@ -1,46 +1,54 @@
-var a = Object.defineProperty;
-var i = (e, t, o) => t in e ? a(e, t, { enumerable: !0, configurable: !0, writable: !0, value: o }) : e[t] = o;
-var r = (e, t, o) => (i(e, typeof t != "symbol" ? t + "" : t, o), o);
+var d = Object.defineProperty;
+var h = (o, e, r) => e in o ? d(o, e, { enumerable: !0, configurable: !0, writable: !0, value: r }) : o[e] = r;
+var t = (o, e, r) => (h(o, typeof e != "symbol" ? e + "" : e, r), r);
 import { app as n } from "../../../scripts/app.js";
-import { ComfyWidgets as p } from "../../../scripts/widgets.js";
-function u() {
+import { ComfyWidgets as i } from "../../../scripts/widgets.js";
+function y() {
   console.log("%cSetting up ComfyUI-Anchors...", "color:green");
+  const o = LiteGraph.onAfterChange;
+  LiteGraph.onAfterChange = () => {
+    console.log("%cOn After Change...", "color:red"), o();
+  };
 }
 n.registerExtension({
   name: "drjkl.custom_nodes.anchors",
   async registerCustomNodes() {
-    class e {
+    class o {
       constructor() {
-        r(this, "color", LGraphCanvas.node_colors.yellow.color);
-        r(this, "bgcolor", LGraphCanvas.node_colors.yellow.bgcolor);
-        r(this, "groupcolor", LGraphCanvas.node_colors.yellow.groupcolor);
-        r(this, "serialize_widgets", !0);
-        r(this, "isVirtualNode", !0);
-        r(this, "properties", { text: "" });
-        p.STRING(
+        t(this, "color", LGraphCanvas.node_colors.yellow.color);
+        t(this, "bgcolor", LGraphCanvas.node_colors.yellow.bgcolor);
+        t(this, "groupcolor", LGraphCanvas.node_colors.yellow.groupcolor);
+        t(this, "serialize_widgets", !0);
+        t(this, "isVirtualNode", !0);
+        t(this, "properties", { text: "" });
+        i.STRING(
           this,
           "waypoint",
           ["", { default: this.properties.text, multiline: !1 }],
           n
+        ), i.INT(this, "waypoint_x", ["", { default: 0 }], n), i.INT(this, "waypoint_y", ["", { default: 0 }], n);
+      }
+      onMouseMove(r, [f, _], a) {
+        if (r.buttons < 1)
+          return;
+        const [c, p] = a.current_node.pos, l = a.current_node.widgets, u = l.find(
+          (s) => s.name === "waypoint_x"
+        ), g = l.find(
+          (s) => s.name === "waypoint_y"
         );
-      }
-      onMouseMove(o, [s, l], c) {
-        console.table({ type: "mouseMove", e: o, x: s, y: l, canvas: c });
-      }
-      onMouseUp(o, [s, l], c) {
-        console.table({ type: "mouseUp", e: o, x: s, y: l, canvas: c });
+        u.value = c, g.value = p;
       }
     }
-    r(e, "category", "utils"), LiteGraph.registerNodeType(
-      "utils/⚓ Anchor",
-      Object.assign(e, {
+    t(o, "category", "utils"), LiteGraph.registerNodeType(
+      "⚓ Anchor",
+      Object.assign(o, {
         title_mode: LiteGraph.NORMAL_TITLE,
         title: "⚓ Anchor",
         collapsable: !0
       })
-    );
+    ), o.category = "utils";
   },
   async setup() {
-    u();
+    y();
   }
 });

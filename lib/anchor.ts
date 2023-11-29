@@ -4,6 +4,11 @@ import { type ComfyExtension } from '../../ComfyUI/web/types/comfy';
 
 function setupAnchors() {
   console.log(`%cSetting up ComfyUI-Anchors...`, 'color:green');
+  const onAfterChange_ = LiteGraph.onAfterChange;
+  LiteGraph.onAfterChange = () => {
+    console.log('%cOn After Change...', 'color:red');
+    onAfterChange_();
+  };
 }
 
 app.registerExtension({
@@ -25,25 +30,39 @@ app.registerExtension({
           ['', { default: this.properties.text, multiline: false }],
           app,
         );
+        ComfyWidgets.INT(this, 'waypoint_x', ['', { default: 0 }], app);
+        ComfyWidgets.INT(this, 'waypoint_y', ['', { default: 0 }], app);
       }
-      onMouseMove(e: MouseEvent, [x, y]: [number, number], canvas: unknown) {
-        console.table({ type: 'mouseMove', e, x, y, canvas });
-      }
-      onMouseUp(e: MouseEvent, [x, y]: [number, number], canvas: unknown) {
-        console.table({ type: 'mouseUp', e, x, y, canvas });
+      onMouseMove(
+        e: MouseEvent,
+        [_mouseX, _mouseY]: [number, number],
+        canvas: any,
+      ) {
+        if (e.buttons < 1) {
+          return;
+        }
+        const [x, y] = canvas.current_node.pos;
+        const widgets = canvas.current_node.widgets;
+        const xWidget = widgets.find(
+          (w: { name: string }) => w.name === 'waypoint_x',
+        );
+        const yWidget = widgets.find(
+          (w: { name: string }) => w.name === 'waypoint_y',
+        );
+        xWidget.value = x;
+        yWidget.value = y;
       }
     }
 
-    // Load default visibility
-
     LiteGraph.registerNodeType(
-      'utils/⚓ Anchor',
+      '⚓ Anchor',
       Object.assign(AnchorNode, {
         title_mode: LiteGraph.NORMAL_TITLE,
         title: '⚓ Anchor',
         collapsable: true,
       }),
     );
+    AnchorNode.category = 'utils';
   },
   async setup() {
     setupAnchors();
