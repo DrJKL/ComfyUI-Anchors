@@ -1,65 +1,72 @@
-var f = Object.defineProperty;
-var _ = (e, o, r) => o in e ? f(e, o, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[o] = r;
-var t = (e, o, r) => (_(e, typeof o != "symbol" ? o + "" : o, r), r);
-import { app as s } from "../../../scripts/app.js";
-import { ComfyWidgets as c } from "../../../scripts/widgets.js";
-function m() {
+var w = Object.defineProperty;
+var x = (t, o, e) => o in t ? w(t, o, { enumerable: !0, configurable: !0, writable: !0, value: e }) : t[o] = e;
+var n = (t, o, e) => (x(t, typeof o != "symbol" ? o + "" : o, e), e);
+import { app as r } from "../../../scripts/app.js";
+import { ComfyWidgets as h } from "../../../scripts/widgets.js";
+let s = null;
+function A() {
   console.log("%cSetting up ComfyUI-Anchors...", "color:green");
-  const e = LiteGraph.onAfterChange;
-  LiteGraph.onAfterChange = () => {
-    console.log("%cOn After Change...", "color:red"), e();
-  }, addEventListener("keydown", (o) => {
+  const t = r.graph.onAfterChange;
+  r.graph.onAfterChange = () => {
+    console.log("%cOn After Change...", "color:red"), t == null || t();
+  }, s ?? (s = _()[0] ?? null), addEventListener("keydown", (o) => {
     switch (o.key) {
-      case "w":
       case "a":
-      case "s":
       case "d":
-        console.log(o), console.log(w());
+        const e = _();
+        if (e.length < 1)
+          return;
+        const c = e.findIndex((d) => d === s);
+        if (c < 0)
+          return;
+        const a = o.key === "a" ? -1 : 1, i = (c + a + e.length) % e.length;
+        i !== c && (s = e[i], r.canvas.centerOnNode(s));
     }
   });
 }
-function w() {
-  const e = s.graph.findNodesByClass(n);
-  return new Set(e);
+function _() {
+  return r.graph.findNodesByClass(l);
 }
-class n {
+class l {
   constructor() {
-    t(this, "color", LGraphCanvas.node_colors.black.color);
-    t(this, "bgcolor", LGraphCanvas.node_colors.yellow.bgcolor);
-    t(this, "groupcolor", LGraphCanvas.node_colors.purple.groupcolor);
-    t(this, "horizontal", !0);
-    t(this, "serialize_widgets", !0);
-    t(this, "isVirtualNode", !0);
-    t(this, "properties", { text: "" });
-    c.STRING(
+    n(this, "bgcolor", LGraphCanvas.node_colors.yellow.bgcolor);
+    n(this, "groupcolor", LGraphCanvas.node_colors.purple.groupcolor);
+    n(this, "horizontal", !0);
+    n(this, "serialize_widgets", !0);
+    n(this, "isVirtualNode", !0);
+    n(this, "properties", { text: "" });
+    h.STRING(
       this,
       "waypoint",
       ["", { default: this.properties.text, multiline: !1 }],
-      s
-    ), c.INT(this, "waypoint_x", ["", { default: 0 }], s), c.INT(this, "waypoint_y", ["", { default: 0 }], s);
+      r
+    ), h.INT(this, "waypoint_x", ["", { default: 0 }], r), h.INT(this, "waypoint_y", ["", { default: 0 }], r);
   }
-  onMouseMove(o, [r, A], i) {
-    var d, g;
+  get color() {
+    return s === this ? LGraphCanvas.node_colors.cyan.color : LGraphCanvas.node_colors.black.color;
+  }
+  onMouseMove(o, [e, c], a) {
+    var f, m;
     if (o.buttons < 1)
       return;
-    const [h, y] = ((d = i.current_node) == null ? void 0 : d.pos) ?? [0, 0], l = ((g = i.current_node) == null ? void 0 : g.widgets) ?? [], u = l.find((a) => a.name === "waypoint_x"), p = l.find((a) => a.name === "waypoint_y");
-    u && (u.value = h), p && (p.value = y);
+    const [i, d] = ((f = a.current_node) == null ? void 0 : f.pos) ?? [0, 0], p = ((m = a.current_node) == null ? void 0 : m.widgets) ?? [], g = p.find((u) => u.name === "waypoint_x"), y = p.find((u) => u.name === "waypoint_y");
+    g && (g.value = i), y && (y.value = d);
   }
 }
-t(n, "category", "utils");
-s.registerExtension({
+n(l, "category", "utils");
+r.registerExtension({
   name: "drjkl.custom_nodes.anchors",
   async registerCustomNodes() {
     LiteGraph.registerNodeType(
       "⚓ Anchor",
-      Object.assign(n, {
+      Object.assign(l, {
         title_mode: LiteGraph.NORMAL_TITLE,
         title: "⚓ Anchor",
         collapsable: !0
       })
-    ), n.category = "utils";
+    ), l.category = "utils";
   },
   async setup() {
-    m();
+    A();
   }
 });

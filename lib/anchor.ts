@@ -2,38 +2,56 @@ import { app } from '../../ComfyUI/web/scripts/app.js';
 import { ComfyWidgets } from '../../ComfyUI/web/scripts/widgets.js';
 import type { ComfyExtension } from '../../ComfyUI/web/types/comfy';
 import type {
-  IWidget,
   LGraphCanvas as LGraphCanvasType,
-  LGraphNode,
+  IWidget,
 } from '../../ComfyUI/web/types/litegraph.js';
+
+let selectedNode: AnchorNode | null = null;
 
 function setupAnchors() {
   console.log(`%cSetting up ComfyUI-Anchors...`, 'color:green');
-  const onAfterChange_ = LiteGraph.onAfterChange;
-  LiteGraph.onAfterChange = () => {
+  const onAfterChange_ = app.graph.onAfterChange;
+  app.graph.onAfterChange = () => {
     console.log('%cOn After Change...', 'color:red');
-    onAfterChange_();
+    onAfterChange_?.();
   };
+  selectedNode ??= findAllAnchors()[0] ?? null;
+
   addEventListener('keydown', (event) => {
     switch (event.key) {
-      case 'w':
       case 'a':
-      case 's':
       case 'd':
-        console.log(event);
-        console.log(findAllAnchors());
+        const anchors = findAllAnchors();
+        if (anchors.length < 2) {
+          return;
+        }
+        const currentAnchorIdx = anchors.findIndex((n) => n === selectedNode);
+        if (currentAnchorIdx < 0) {
+          return;
+        }
+        const dir = event.key === 'a' ? -1 : 1;
+        const nextAnchorIdx =
+          (currentAnchorIdx + dir + anchors.length) % anchors.length;
+        if (nextAnchorIdx !== currentAnchorIdx) {
+          selectedNode = anchors[nextAnchorIdx];
+          app.canvas.centerOnNode(selectedNode);
+        }
     }
   });
 }
 
-function findAllAnchors() {
+function findAllAnchors(): AnchorNode[] {
   const anchors = app.graph.findNodesByClass(AnchorNode);
-  return new Set<LGraphNode>(anchors);
+  return anchors;
 }
 class AnchorNode {
   static category = 'utils';
 
-  color: string = LGraphCanvas.node_colors.black.color;
+  get color(): string {
+    return selectedNode === this
+      ? LGraphCanvas.node_colors.cyan.color
+      : LGraphCanvas.node_colors.black.color;
+  }
   bgcolor: string = LGraphCanvas.node_colors.yellow.bgcolor;
   groupcolor: string = LGraphCanvas.node_colors.purple.groupcolor;
   readonly horizontal = true;
