@@ -1,4 +1,4 @@
-import type { LGraphCanvas as LGraphCanvasType } from '../../../types/litegraph.js';
+import type { LGraphCanvas as LGraphCanvasType } from '../../types/litegraph.js';
 export declare class AnchorNode {
     static category: string;
     readonly horizontal = true;
