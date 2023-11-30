@@ -21,11 +21,12 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "allowJs": true
+    "allowJs": true,
+    "verbatimModuleSyntax": true
   },
   "include": [
-    "lib/global.d.ts",
+    "../ComfyUI/web/**/*",
+    "global.d.ts",
     "lib/**/*",
-    "../ComfyUI/web/**/*"
   ],
 }

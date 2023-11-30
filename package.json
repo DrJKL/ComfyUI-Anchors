@@ -5,8 +5,7 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/comfyui-anchors.es.js",
-      "require": "./dist/comfyui-anchors.umd.cjs"
+      "import": "./dist/comfyui-anchors.js"
     }
   },
   "types": "types",
