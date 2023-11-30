@@ -8,6 +8,12 @@ Add Anchor Nodes (in `utils`)
 
 Jump between them using the `a` and `d` keys.
 
+### Unexpected side-effects you can abuse
+
+The way Comfy's Litegraph's centerOnNode works doesn't account for collapsed nodes.\
+So if you want to change the centering position when jumping to an Anchor, you can make it nice and big, then collapse it.\
+Try it out.
+
 ## TODO
 
 - [ ] Nodes
