@@ -18,6 +18,13 @@ function setupAnchors() {
   selectedNode ??= findAllAnchors()[0] ?? null;
 
   addEventListener('keydown', (event) => {
+    const { target } = event;
+    if (target && target instanceof Element) {
+      const tag = target.tagName.toLowerCase();
+      if (tag === 'input' || tag === 'textarea') {
+        return;
+      }
+    }
     switch (event.key) {
       case 'a':
       case 'd':
