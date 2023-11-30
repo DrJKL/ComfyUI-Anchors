@@ -25,16 +25,17 @@ function setupAnchors() {
         if (anchors.length < 2) {
           return;
         }
-        const currentAnchorIdx = anchors.findIndex((n) => n === selectedNode);
-        if (currentAnchorIdx < 0) {
-          return;
-        }
+        const currentAnchorIdx = Math.max(
+          0,
+          anchors.findIndex((n) => n === selectedNode),
+        );
         const dir = event.key === 'a' ? -1 : 1;
         const nextAnchorIdx =
           (currentAnchorIdx + dir + anchors.length) % anchors.length;
         if (nextAnchorIdx !== currentAnchorIdx) {
           selectedNode = anchors[nextAnchorIdx];
           app.canvas.centerOnNode(selectedNode);
+          app.canvas.selectNode(selectedNode);
         }
     }
   });
@@ -84,6 +85,13 @@ class AnchorNode {
     const yWidget = widgets.find((w) => w.name === 'waypoint_y');
     xWidget && (xWidget.value = x);
     yWidget && (yWidget.value = y);
+  }
+  onMouseUp(
+    _e: MouseEvent,
+    [_mouseX, _mouseY]: [number, number],
+    _canvas: LGraphCanvasType,
+  ): void {
+    selectedNode = this;
   }
 }
 
