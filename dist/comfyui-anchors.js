@@ -1,8 +1,8 @@
 var w = Object.defineProperty;
 var x = (n, e, o) => e in n ? w(n, e, { enumerable: !0, configurable: !0, writable: !0, value: o }) : n[e] = o;
 var r = (n, e, o) => (x(n, typeof e != "symbol" ? e + "" : e, o), o);
-import { app as s } from "../../../scripts/app.js";
-import { ComfyWidgets as h } from "../../../scripts/widgets.js";
+import { app as s } from "../../scripts/app.js";
+import { ComfyWidgets as h } from "../../scripts/widgets.js";
 const t = { node: null };
 class l {
   constructor() {

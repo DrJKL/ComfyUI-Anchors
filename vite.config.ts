@@ -14,12 +14,12 @@ export default defineConfig(({ mode }) => {
         fileName: `comfyui-anchors`,
       },
       rollupOptions: {
-        external: [new RegExp('\\.\\./\\.\\./\\.\\./.*')],
+        external: [new RegExp('\\.\\./\\.\\./(?!ComfyUI)')],
       },
     },
 
     resolve: {
-      alias: [{ find: /.+\/ComfyUI\/web\/(.*)/, replacement: '../../../$1' }],
+      alias: [{ find: /.+\/ComfyUI\/web\/(.*)/, replacement: '../../$1' }],
     },
 
     plugins: [dts({ include: ['lib'], exclude: ['ComfyUI/**'] })],
