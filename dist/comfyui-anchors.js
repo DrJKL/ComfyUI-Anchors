@@ -1,26 +1,27 @@
 var w = Object.defineProperty;
-var I = (o, t, e) => t in o ? w(o, t, { enumerable: !0, configurable: !0, writable: !0, value: e }) : o[t] = e;
-var s = (o, t, e) => (I(o, typeof t != "symbol" ? t + "" : t, e), e);
-import { app as r } from "../../scripts/app.js";
-import { ComfyWidgets as h } from "../../scripts/widgets.js";
-const n = { node: null };
-class l {
+var I = (n, t, e) => t in n ? w(n, t, { enumerable: !0, configurable: !0, writable: !0, value: e }) : n[t] = e;
+var o = (n, t, e) => (I(n, typeof t != "symbol" ? t + "" : t, e), e);
+import { app as a } from "../../scripts/app.js";
+import { ComfyWidgets as u } from "../../scripts/widgets.js";
+const s = { node: null };
+class r {
   constructor() {
-    s(this, "horizontal", !0);
-    s(this, "serialize_widgets", !0);
-    s(this, "isVirtualNode", !0);
-    s(this, "bgcolor", LGraphCanvas.node_colors.yellow.bgcolor);
-    s(this, "groupcolor", LGraphCanvas.node_colors.purple.groupcolor);
-    s(this, "titleInternal");
-    h.STRING(
+    o(this, "horizontal", !0);
+    o(this, "serialize_widgets", !0);
+    o(this, "isVirtualNode", !0);
+    o(this, "bgcolor", LGraphCanvas.node_colors.yellow.bgcolor);
+    o(this, "groupcolor", LGraphCanvas.node_colors.purple.groupcolor);
+    o(this, "titleInternal");
+    o(this, "widgets", []);
+    u.STRING(
       this,
       "waypoint",
       ["", { default: "", multiline: !1 }],
-      r
-    ), h.INT(this, "waypoint_x", ["", { default: 0 }], r), h.INT(this, "waypoint_y", ["", { default: 0 }], r);
+      a
+    ), u.INT(this, "waypoint_x", ["", { default: 0 }], a), u.INT(this, "waypoint_y", ["", { default: 0 }], a);
   }
   get color() {
-    return n.node === this ? LGraphCanvas.node_colors.cyan.color : LGraphCanvas.node_colors.black.color;
+    return s.node === this ? LGraphCanvas.node_colors.cyan.color : LGraphCanvas.node_colors.black.color;
   }
   get title() {
     return this.flags ? this.flags.collapsed ? "⚓" : this.titleInternal : this.titleInternal;
@@ -28,58 +29,56 @@ class l {
   set title(t) {
     this.titleInternal = t;
   }
-  onMouseMove(t, [e, i], a) {
-    var y, m;
+  onMouseMove(t, [e, c], i) {
+    var f, y;
     if (t.buttons < 1)
       return;
-    const [c, u] = ((y = a.current_node) == null ? void 0 : y.pos) ?? [0, 0], g = ((m = a.current_node) == null ? void 0 : m.widgets) ?? [], p = g.find((d) => d.name === "waypoint_x"), f = g.find((d) => d.name === "waypoint_y");
-    p && (p.value = c), f && (f.value = u);
+    const [l, _] = ((f = i.current_node) == null ? void 0 : f.pos) ?? [0, 0], h = ((y = i.current_node) == null ? void 0 : y.widgets) ?? [], g = h.find((d) => d.name === "waypoint_x"), p = h.find((d) => d.name === "waypoint_y");
+    g && (g.value = l), p && (p.value = _);
   }
-  onMouseUp(t, [e, i], a) {
-    n.node = this;
+  onMouseUp(t, [e, c], i) {
+    s.node = this;
   }
 }
-s(l, "category", "utils");
-function _() {
-  return r.graph.findNodesByClass(l);
+o(r, "category", "utils"), o(r, "title", "⚓ Anchor"), o(r, "collabsable", !0), o(r, "title_mode", LiteGraph.NORMAL_TITLE);
+function x(n) {
+  s.node = n, a.canvas.centerOnNode(s.node), a.canvas.selectNode(s.node);
 }
-function x() {
-  console.log("%cSetting up ComfyUI-Anchors...", "color:green"), n.node ?? (n.node = _()[0] ?? null), addEventListener("keydown", (o) => {
-    const { target: t } = o;
-    if (t && t instanceof Element) {
-      const e = t.tagName.toLowerCase();
-      if (e === "input" || e === "textarea")
+function L(n) {
+  return Math.max(
+    0,
+    n.findIndex((t) => t === s.node)
+  );
+}
+function m() {
+  return a.graph.findNodesByClass(r);
+}
+function C(n) {
+  const { target: t } = n;
+  if (t && t instanceof Element) {
+    const e = t.tagName.toLowerCase();
+    if (e === "input" || e === "textarea")
+      return;
+  }
+  switch (n.key) {
+    case "a":
+    case "d":
+      const e = m();
+      if (e.length < 1)
         return;
-    }
-    switch (o.key) {
-      case "a":
-      case "d":
-        const e = _();
-        if (e.length < 2)
-          return;
-        const i = Math.max(
-          0,
-          e.findIndex((u) => u === n.node)
-        ), a = o.key === "a" ? -1 : 1, c = (i + a + e.length) % e.length;
-        if (c === i)
-          return;
-        n.node = e[c], r.canvas.centerOnNode(n.node), r.canvas.selectNode(n.node);
-    }
-  });
+      const c = L(e), i = n.key === "a" ? -1 : 1, l = (c + i + e.length) % e.length;
+      x(e[l]);
+  }
 }
-r.registerExtension({
+function N() {
+  console.log("%cSetting up ComfyUI-Anchors...", "color:green"), s.node ?? (s.node = m()[0] ?? null), addEventListener("keydown", C);
+}
+a.registerExtension({
   name: "drjkl.custom_nodes.anchors",
   async registerCustomNodes() {
-    LiteGraph.registerNodeType(
-      "⚓ Anchor",
-      Object.assign(l, {
-        title_mode: LiteGraph.NORMAL_TITLE,
-        title: "⚓ Anchor",
-        collapsable: !0
-      })
-    ), l.category = "utils";
+    LiteGraph.registerNodeType("⚓ Anchor", r), r.category = "utils";
   },
   async setup() {
-    x();
+    N();
   }
 });
