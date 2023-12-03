@@ -1,66 +1,73 @@
 var w = Object.defineProperty;
-var x = (n, e, o) => e in n ? w(n, e, { enumerable: !0, configurable: !0, writable: !0, value: o }) : n[e] = o;
-var r = (n, e, o) => (x(n, typeof e != "symbol" ? e + "" : e, o), o);
-import { app as s } from "../../scripts/app.js";
+var I = (o, t, e) => t in o ? w(o, t, { enumerable: !0, configurable: !0, writable: !0, value: e }) : o[t] = e;
+var s = (o, t, e) => (I(o, typeof t != "symbol" ? t + "" : t, e), e);
+import { app as r } from "../../scripts/app.js";
 import { ComfyWidgets as h } from "../../scripts/widgets.js";
-const t = { node: null };
+const n = { node: null };
 class l {
   constructor() {
-    r(this, "horizontal", !0);
-    r(this, "serialize_widgets", !0);
-    r(this, "isVirtualNode", !0);
-    r(this, "bgcolor", LGraphCanvas.node_colors.yellow.bgcolor);
-    r(this, "groupcolor", LGraphCanvas.node_colors.purple.groupcolor);
+    s(this, "horizontal", !0);
+    s(this, "serialize_widgets", !0);
+    s(this, "isVirtualNode", !0);
+    s(this, "bgcolor", LGraphCanvas.node_colors.yellow.bgcolor);
+    s(this, "groupcolor", LGraphCanvas.node_colors.purple.groupcolor);
+    s(this, "titleInternal");
     h.STRING(
       this,
       "waypoint",
       ["", { default: "", multiline: !1 }],
-      s
-    ), h.INT(this, "waypoint_x", ["", { default: 0 }], s), h.INT(this, "waypoint_y", ["", { default: 0 }], s);
+      r
+    ), h.INT(this, "waypoint_x", ["", { default: 0 }], r), h.INT(this, "waypoint_y", ["", { default: 0 }], r);
   }
   get color() {
-    return t.node === this ? LGraphCanvas.node_colors.cyan.color : LGraphCanvas.node_colors.black.color;
+    return n.node === this ? LGraphCanvas.node_colors.cyan.color : LGraphCanvas.node_colors.black.color;
   }
-  onMouseMove(e, [o, c], a) {
-    var f, m;
-    if (e.buttons < 1)
+  get title() {
+    return this.flags ? this.flags.collapsed ? "⚓" : this.titleInternal : this.titleInternal;
+  }
+  set title(t) {
+    this.titleInternal = t;
+  }
+  onMouseMove(t, [e, i], a) {
+    var y, m;
+    if (t.buttons < 1)
       return;
-    const [i, d] = ((f = a.current_node) == null ? void 0 : f.pos) ?? [0, 0], p = ((m = a.current_node) == null ? void 0 : m.widgets) ?? [], g = p.find((u) => u.name === "waypoint_x"), y = p.find((u) => u.name === "waypoint_y");
-    g && (g.value = i), y && (y.value = d);
+    const [c, u] = ((y = a.current_node) == null ? void 0 : y.pos) ?? [0, 0], g = ((m = a.current_node) == null ? void 0 : m.widgets) ?? [], p = g.find((d) => d.name === "waypoint_x"), f = g.find((d) => d.name === "waypoint_y");
+    p && (p.value = c), f && (f.value = u);
   }
-  onMouseUp(e, [o, c], a) {
-    t.node = this;
+  onMouseUp(t, [e, i], a) {
+    n.node = this;
   }
 }
-r(l, "category", "utils");
+s(l, "category", "utils");
 function _() {
-  return s.graph.findNodesByClass(l);
+  return r.graph.findNodesByClass(l);
 }
-function L() {
-  console.log("%cSetting up ComfyUI-Anchors...", "color:green"), t.node ?? (t.node = _()[0] ?? null), addEventListener("keydown", (n) => {
-    const { target: e } = n;
-    if (e && e instanceof Element) {
-      const o = e.tagName.toLowerCase();
-      if (o === "input" || o === "textarea")
+function x() {
+  console.log("%cSetting up ComfyUI-Anchors...", "color:green"), n.node ?? (n.node = _()[0] ?? null), addEventListener("keydown", (o) => {
+    const { target: t } = o;
+    if (t && t instanceof Element) {
+      const e = t.tagName.toLowerCase();
+      if (e === "input" || e === "textarea")
         return;
     }
-    switch (n.key) {
+    switch (o.key) {
       case "a":
       case "d":
-        const o = _();
-        if (o.length < 2)
+        const e = _();
+        if (e.length < 2)
           return;
-        const c = Math.max(
+        const i = Math.max(
           0,
-          o.findIndex((d) => d === t.node)
-        ), a = n.key === "a" ? -1 : 1, i = (c + a + o.length) % o.length;
-        if (i === c)
+          e.findIndex((u) => u === n.node)
+        ), a = o.key === "a" ? -1 : 1, c = (i + a + e.length) % e.length;
+        if (c === i)
           return;
-        t.node = o[i], s.canvas.centerOnNode(t.node), s.canvas.selectNode(t.node);
+        n.node = e[c], r.canvas.centerOnNode(n.node), r.canvas.selectNode(n.node);
     }
   });
 }
-s.registerExtension({
+r.registerExtension({
   name: "drjkl.custom_nodes.anchors",
   async registerCustomNodes() {
     LiteGraph.registerNodeType(
@@ -73,6 +80,6 @@ s.registerExtension({
     ), l.category = "utils";
   },
   async setup() {
-    L();
+    x();
   }
 });

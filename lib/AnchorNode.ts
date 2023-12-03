@@ -9,6 +9,10 @@ import { selectedNode } from './selectedNode';
 export class AnchorNode {
   static category = 'utils';
 
+  declare flags: {
+    collapsed?: boolean;
+  };
+
   readonly horizontal = true;
   readonly serialize_widgets = true;
   readonly isVirtualNode = true;
@@ -20,6 +24,18 @@ export class AnchorNode {
   }
   bgcolor: string = LGraphCanvas.node_colors.yellow.bgcolor;
   groupcolor: string = LGraphCanvas.node_colors.purple.groupcolor;
+
+  private titleInternal?: string;
+
+  get title() {
+    if (!this.flags) {
+      return this.titleInternal;
+    }
+    return this.flags.collapsed ? '⚓' : this.titleInternal;
+  }
+  set title(newTitle: string | undefined) {
+    this.titleInternal = newTitle;
+  }
 
   constructor() {
     ComfyWidgets.STRING(
