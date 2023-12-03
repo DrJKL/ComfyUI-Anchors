@@ -8,6 +8,9 @@ import { selectedNode } from './selectedNode';
 
 export class AnchorNode {
   static category = 'utils';
+  static title = '⚓ Anchor';
+  static collabsable = true;
+  static title_mode = LiteGraph.NORMAL_TITLE;
 
   declare flags: {
     collapsed?: boolean;
@@ -36,6 +39,8 @@ export class AnchorNode {
   set title(newTitle: string | undefined) {
     this.titleInternal = newTitle;
   }
+
+  readonly widgets = [];
 
   constructor() {
     ComfyWidgets.STRING(
