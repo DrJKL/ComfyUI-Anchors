@@ -19,10 +19,13 @@
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "allowJs": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    /* Accounting for JS files in Comfy */
+    /* Notably, draggableList.js */
+    "noUnusedParameters": false,
+    "noImplicitAny": false
   },
   "include": [
     "../ComfyUI/web/**/*",
