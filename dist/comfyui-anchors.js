@@ -57,7 +57,7 @@ function C(n) {
   const { target: t } = n;
   if (t && t instanceof Element) {
     const e = t.tagName.toLowerCase();
-    if (e === "input" || e === "textarea")
+    if (e === "input" || e === "textarea" || e === "span")
       return;
   }
   switch (n.key) {
