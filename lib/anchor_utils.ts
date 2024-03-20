@@ -24,7 +24,8 @@ export function handleKeydownAnchor(event: KeyboardEvent) {
   const { target } = event;
   if (target && target instanceof Element) {
     const tag = target.tagName.toLowerCase();
-    if (tag === 'input' || tag === 'textarea') {
+    // span with `contenteditable="true"` in the Properties Panel
+    if (tag === 'input' || tag === 'textarea' || tag === 'span') {
       return;
     }
   }
