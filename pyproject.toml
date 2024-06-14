@@ -1,0 +1,14 @@
+[project]
+name = "comfyui-anchors"
+description = "A ComfyUI extension to add spatial anchors/waypoints to better navigate large workflows."
+version = "1.0.0"
+license = "LICENSE"
+
+[project.urls]
+Repository = "https://github.com/DrJKL/ComfyUI-Anchors"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-Anchors"
+Icon = ""
